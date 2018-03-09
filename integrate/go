@@ -1,0 +1,17 @@
+#!/bin/sh
+echo "********** lupinmine/integrate **********"
+ant clean
+
+## ontologies
+ant -v -Dsource=so,go
+
+## datastore loads
+ant -v -Dsource=lupan-chromosome-fasta
+ant -v -Dsource=lupan-protein-fasta
+ant -v -Dsource=lupan-gene-mrna-cds-gff
+
+## update organism data and add secondary identifiers
+psql lupinmine -f ../dbmodel/build/model/add-update-triggers.sql
+psql lupinmine -f ../sql/update-organism-genus-species.sql
+psql lupinmine -f add-secondaryidentifiers.sql
+psql lupinmine -f ../dbmodel/build/model/remove-update-triggers.sql

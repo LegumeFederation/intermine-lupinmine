@@ -1,0 +1,31 @@
+#!/bin/sh
+echo "********** lupinmine/postprocess **********"
+ant clean
+
+## the whole kaboodle kit
+ant -v
+
+## legfed
+#ant -v -Daction=create-go-annotations
+#ant -v -Daction=populate-transcript-references
+#ant -v -Daction=create-protein-gene-references
+
+## add features
+#ant -v -Daction=create-intron-features
+#ant -v -Daction=create-intergenic-region-features
+#ant -v -Daction=create-gene-flanking-features
+
+## create various references and collections
+#ant -v -Daction=populate-located-features
+#ant -v -Daction=populate-child-features
+#ant -v -Daction=create-references
+#ant -v -Daction=create-chromosome-locations-and-lengths
+#ant -v -Daction=transfer-sequences
+
+## create views and indexes, after all data is set
+#ant -v -Daction=create-location-overlap-index
+#ant -v -Daction=create-overlap-view
+#ant -v -Daction=create-attribute-indexes
+#ant -v -Daction=summarise-objectstore
+#ant -v -Daction=create-autocomplete-index
+#ant -v -Daction=create-search-index
