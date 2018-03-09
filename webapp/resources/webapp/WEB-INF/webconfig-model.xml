@@ -60,7 +60,7 @@
     </fields>
   </class>
 
- <class className="org.intermine.model.bio.Location">
+  <class className="org.intermine.model.bio.Location">
     <fields>
       <fieldconfig fieldExpr="feature.primaryIdentifier"/>
       <fieldconfig fieldExpr="start"/>
@@ -91,7 +91,7 @@
   <class className="org.intermine.model.bio.OntologyTerm">
     <headerconfig>
       <titles>
-      <title mainTitles="identifier|name" subTitles="ontology.name" />
+	<title mainTitles="identifier|name" subTitles="ontology.name" />
       </titles>
     </headerconfig>
     <fields>
@@ -117,18 +117,18 @@
   </class>
 
   <class className="org.intermine.model.bio.OntologyAnnotation">
-	  <fields>
-		  <fieldconfig fieldExpr="ontologyTerm.identifier"/>
-		  <fieldconfig fieldExpr="ontologyTerm.name"/>
-		  <fieldconfig fieldExpr="subject.symbol"/>
-		  <fieldconfig fieldExpr="subject.primaryIdentifier"/>
-	  </fields>
+    <fields>
+      <fieldconfig fieldExpr="ontologyTerm.identifier"/>
+      <fieldconfig fieldExpr="ontologyTerm.name"/>
+      <fieldconfig fieldExpr="subject.symbol"/>
+      <fieldconfig fieldExpr="subject.primaryIdentifier"/>
+    </fields>
   </class>
 
   <class className="org.intermine.model.bio.Organism">
     <headerconfig>
       <titles>
-      <title mainTitles="name"/>
+	<title mainTitles="name"/>
       </titles>
     </headerconfig>
     <fields>
@@ -150,9 +150,9 @@
 
   <class className="org.intermine.model.bio.Publication">
     <headerconfig>
-  <titles>
-    <title mainTitles="title" />
- </titles>
+      <titles>
+	<title mainTitles="title" />
+      </titles>
     </headerconfig>
     <inlinelist>
       <table path="authors.name" showLinksToObjects="true" />
@@ -195,20 +195,20 @@
     </fields>
   </class>
 
-<!-- exporters -->
+  <!-- exporters -->
   <tableExportConfig id="sequence" className="org.intermine.bio.web.export.SequenceHttpExporter"/>
   <tableExportConfig id="gff3" className="org.intermine.bio.web.export.GFF3HttpExporter"/>
   <tableExportConfig id="bed" className="org.intermine.bio.web.export.BEDHttpExporter"/>
 
   <reportdisplayers>
 
-	<!--       
-	  <reportdisplayer javaClass="org.intermine.bio.web.displayer.GeneOntologyDisplayer"
-                     jspName="model/geneOntologyDisplayer.jsp"
-                     replacesFields="goAnnotation,ontologyAnnotations"
-                     placement="Genomics"
-		     types="Gene"/>
-	-->
+    <!--       
+	 <reportdisplayer javaClass="org.intermine.bio.web.displayer.GeneOntologyDisplayer"
+         jspName="model/geneOntologyDisplayer.jsp"
+         replacesFields="goAnnotation,ontologyAnnotations"
+         placement="Genomics"
+	 types="Gene"/>
+    -->
 
     <reportdisplayer javaClass="org.intermine.bio.web.displayer.GeneStructureDisplayer"
                      jspName="model/geneStructureDisplayer.jsp"
@@ -222,13 +222,13 @@
                      placement="summary"
                      types="SequenceFeature"/>
 
-	<!--
-	     <reportdisplayer javaClass="org.intermine.bio.web.displayer.UniProtCommentsDisplayer"
-                     jspName="model/uniProtCommentsDisplayer.jsp"
-                     replacesFields=""
-                     placement="Proteins"
-		     types="Gene,Protein"/>
-	-->
+    <!--
+	<reportdisplayer javaClass="org.intermine.bio.web.displayer.UniProtCommentsDisplayer"
+        jspName="model/uniProtCommentsDisplayer.jsp"
+        replacesFields=""
+        placement="Proteins"
+	types="Gene,Protein"/>
+    -->
 
     <reportdisplayer javaClass="org.intermine.bio.web.displayer.JBrowseDisplayer"
                      jspName="model/jbrowseDisplayer.jsp"
@@ -238,24 +238,49 @@
 
   </reportdisplayers>
 
-<!-- widgets -->
-<widgets>
-      <graphdisplayer id="chromosome_distribution_for_gene"
-                      title="Chromosome Distribution"
-                      description="Actual: number of items in this list found on each chromosome.  Expected: given the total number of items on the chromosome and the number of items in this list, the number of items expected to be found on each chromosome."
-                      graphType="ColumnChart"
-                      rangeLabel="Count"
-                      domainLabel="Chromosome"
-                      filterLabel="Organism"
-                      filters="organism.name=[list]"
-                      startClass="Gene"
-                      typeClass="Gene"
-                      categoryPath="chromosome.primaryIdentifier"
-                      seriesLabels="Actual,Expected"
-                      seriesPath="ActualExpectedCriteria"
-                      constraints="organism.name=[Organism]"
-                      views="primaryIdentifier, symbol, secondaryIdentifier, organism.name, chromosome.primaryIdentifier,
-                             chromosomeLocation.start, chromosomeLocation.end, chromosomeLocation.strand"/>
+  <!-- widgets -->
+  <widgets>
 
-</widgets>
+    <graphdisplayer id="chromosome_distribution_for_gene"
+                    title="Chromosome Distribution"
+                    description="Actual: number of items in this list found on each chromosome.  Expected: given the total number of items on the chromosome and the number of items in this list, the number of items expected to be found on each chromosome."
+                    graphType="ColumnChart"
+                    rangeLabel="Count"
+                    domainLabel="Chromosome"
+                    filterLabel="Organism"
+                    filters="organism.name=[list]"
+                    startClass="Gene"
+                    typeClass="Gene"
+                    categoryPath="chromosome.primaryIdentifier"
+                    seriesLabels="Actual,Expected"
+                    seriesPath="ActualExpectedCriteria"
+                    constraints="organism.name=[Organism]"
+                    views="primaryIdentifier, symbol, secondaryIdentifier, organism.name, chromosome.primaryIdentifier,
+                           chromosomeLocation.start, chromosomeLocation.end, chromosomeLocation.strand"/>
+
+    <!-- constraints skip biological_process, molecular_function and cellular_component GO terms -->
+    <enrichmentwidgetdisplayer id="go_enrichment_for_gene"
+                               title="Gene Ontology Enrichment"
+                               description="GO terms enriched for items in this list."
+                               label="GO Term"
+                               filterLabel="Ontology"
+                               filters="biological_process,cellular_component,molecular_function"
+                               startClass="Gene"
+                               typeClass="Gene"
+                               startClassDisplay="primaryIdentifier"
+                               enrich="ontologyAnnotations.ontologyTerm.name"
+                               enrichIdentifier="ontologyAnnotations.ontologyTerm.identifier"
+                               constraints="ontologyAnnotations.ontologyTerm.namespace=[Ontology],organism.name=[list],
+                                            primaryIdentifier!=null,
+                                            ontologyAnnotations.ontologyTerm.identifier!=GO:0008150,
+                                            ontologyAnnotations.ontologyTerm.identifier!=GO:0003674,
+                                            ontologyAnnotations.ontologyTerm.identifier!=GO:0005575"
+                               views="secondaryIdentifier,symbol,primaryIdentifier,organism.name,
+                                      ontologyAnnotations.ontologyTerm.identifier,
+                                      ontologyAnnotations.ontologyTerm.name"
+                               externalLink="http://amigo.geneontology.org/cgi-bin/amigo/term_details?term=" />
+
+
+  </widgets>
+
 </webconfig>

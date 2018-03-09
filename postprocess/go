@@ -3,7 +3,7 @@ echo "********** lupinmine/postprocess **********"
 ant clean
 
 ## the whole kaboodle kit
-ant -v
+#ant -v
 
 ## legfed
 #ant -v -Daction=create-go-annotations
@@ -12,7 +12,7 @@ ant -v
 
 ## add features
 #ant -v -Daction=create-intron-features
-#ant -v -Daction=create-intergenic-region-features
+ant -v -Daction=create-intergenic-region-features
 #ant -v -Daction=create-gene-flanking-features
 
 ## create various references and collections
