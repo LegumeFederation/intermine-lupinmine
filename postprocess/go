@@ -12,7 +12,7 @@ ant clean
 
 ## add features
 #ant -v -Daction=create-intron-features
-ant -v -Daction=create-intergenic-region-features
+#ant -v -Daction=create-intergenic-region-features
 #ant -v -Daction=create-gene-flanking-features
 
 ## create various references and collections
@@ -25,7 +25,7 @@ ant -v -Daction=create-intergenic-region-features
 ## create views and indexes, after all data is set
 #ant -v -Daction=create-location-overlap-index
 #ant -v -Daction=create-overlap-view
-#ant -v -Daction=create-attribute-indexes
-#ant -v -Daction=summarise-objectstore
-#ant -v -Daction=create-autocomplete-index
-#ant -v -Daction=create-search-index
+ant -v -Daction=create-attribute-indexes
+ant -v -Daction=summarise-objectstore
+ant -v -Daction=create-autocomplete-index
+ant -v -Daction=create-search-index
